@@ -17,8 +17,14 @@ namespace NAudio.WaveFormRenderer
             var samples = waveStream.Length / (bytesPerSample);
             var samplesPerPixel = (int)(samples / settings.Width);
             var stepSize = settings.PixelsPerPeak + settings.SpacerPixels;
-            peakProvider.Init(waveStream.ToSampleProvider(), samplesPerPixel * stepSize);
+            var readSize = Align(samplesPerPixel * stepSize, waveStream.BlockAlign);
+            peakProvider.Init(waveStream.ToSampleProvider(), readSize);
             return Render(peakProvider, settings);
+        }
+
+        private static int Align(int value, int size)
+        {
+            return ((value + size - 1) / size) * size;
         }
 
         private static Image Render(IPeakProvider peakProvider, WaveFormRendererSettings settings)
