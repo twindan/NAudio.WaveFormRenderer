@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using NAudio.Wave;
@@ -53,6 +54,23 @@ namespace WaveFormRendererApp
                 BackgroundColor = Color.Transparent
             };
 
+            var roundedTransparent = new RoundedRendererSettings(standardSettings.TopPeakPen.Color, standardSettings.BottomPeakPen.Color, 6)
+            {
+                Name = "Rounded Transparent",
+                BackgroundColor = Color.Transparent,
+                SpacerPixels = 1,
+                TopSpacerPen = new Pen(Color.FromArgb(103, 103, 103)),
+                BottomSpacerPen = new Pen(Color.FromArgb(204, 204, 204)),
+            };
+
+            var roundedSolid = new RoundedRendererSettings(standardSettings.TopPeakPen.Color, standardSettings.BottomPeakPen.Color, 5)
+            {
+                Name = "Rounded Solid",
+                BackgroundColor = Color.White,
+                SpacerPixels = 1,
+                TopSpacerPen = new Pen(Color.FromArgb(103, 103, 103)),
+                BottomSpacerPen = new Pen(Color.FromArgb(204, 204, 204)),
+            };
 
             buttonBottomColour.BackColor = standardSettings.BottomPeakPen.Color;
             buttonTopColour.BackColor = standardSettings.TopPeakPen.Color;
@@ -73,7 +91,9 @@ namespace WaveFormRendererApp
                 soundCloudDarkBlocks, 
                 soundCloudOrangeBlocks, 
                 soundCloudOrangeTransparentBlocks,
-                soundCloudGrayTransparentBlocks
+                soundCloudGrayTransparentBlocks,
+                roundedTransparent,
+                roundedSolid
             };
 
             comboBoxRenderSettings.SelectedIndex = 5;
@@ -151,7 +171,7 @@ namespace WaveFormRendererApp
         private void OnLoadSoundFileClick(object sender, EventArgs e)
         {
             var ofd = new OpenFileDialog();
-            ofd.Filter = "MP3 Files|*.mp3|WAV files|*.wav";
+            ofd.Filter = "WAV files|*.wav|MP3 Files|*.mp3";
             if (ofd.ShowDialog(this) == DialogResult.OK)
             {
                 selectedFile = ofd.FileName;

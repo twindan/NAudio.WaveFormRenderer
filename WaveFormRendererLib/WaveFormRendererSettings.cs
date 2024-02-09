@@ -20,10 +20,29 @@ namespace NAudio.WaveFormRenderer
 
         public int Width { get; set; }
 
+        /// <summary>
+        /// Extra space to put above the top height. This leaves room for custom line effects.
+        /// </summary>
+        public int TopMargin { get; set; }
         public int TopHeight { get; set; }
+        /// <summary>
+        /// Extra space to put above the top height. This leaves room for custom line effects.
+        /// </summary>
+        public int BottomMargin { get; set; }
         public int BottomHeight { get; set; }
         public int PixelsPerPeak { get; set; }
+
+        /// <summary>
+        /// If set to true, uses a single line for peaks. Make sure that the width
+        /// is set accordingly.
+        /// </summary>
+        public bool UseSingleStrokesForPeak { get; set; } = false;
         public int SpacerPixels { get; set; }
+        /// <summary>
+        /// If set to true, uses a single line for spacers. Make sure that the width
+        /// is set accordingly.
+        /// </summary>
+        public bool UseSingleStrokesForSpacer { get; set; } = false;
         public virtual Pen TopPeakPen { get; set; }
         public virtual Pen TopSpacerPen { get; set; }
         public virtual Pen BottomPeakPen { get; set; }
@@ -38,6 +57,11 @@ namespace NAudio.WaveFormRenderer
                 return new TextureBrush(BackgroundImage,WrapMode.Clamp);
             }
         }
+
+        /// <summary>
+        /// If set to true, use anti-aliasing when drawing lines.
+        /// </summary>
+        public bool AntiAlias { get; set; }
 
         protected static Pen CreateGradientPen(int height, Color startColor, Color endColor)
         {
